@@ -1,5 +1,4 @@
 var Event = require('./eventModel.js');
-
 module.exports = {
   postEvent: function(req,res){
     new Event({
@@ -18,10 +17,14 @@ module.exports = {
       }
     });
   },
+
   getEvent: function(req,res){
-    Event.find(function(err, booked){
-      if(err) return console.error(err);
-      return res.json(booked);
-    });
+    Event.find({})
+      .sort({eventDate: -1})
+      .exec(function(err, booked){
+        console.log(booked);
+        if(err) return console.error(err);
+        return res.json(booked);
+      });
   }
 };

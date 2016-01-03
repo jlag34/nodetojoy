@@ -1,31 +1,24 @@
- <!-- public/views/index.html -->
 <!doctype html>
 <html ng-app="dibs">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="./css/styles.css"/>
     <link rel="stylesheet" type="text/css" href="./lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>Dibs helping make roommates happy</title>
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="navbar-brand">Dibs</div>
-        
-    </nav>
+    <!-- views are injected here -->
     <div ui-view="indexPage"></div>
-    <div class="navbar navbar-fixed-bottom" role="footer" style="background-color: #f7f7f9">
-        <div class="container">
-            <p id="copyright">© 2016 Dibs</p>
-        </div>
-    </div>
 
     <script src="/lib/angular/angular.min.js"></script>
-    
     <script src="./lib/angular-animate/angular-animate.min.js"></script>
     <script src="./lib/jquery/dist/jquery.min.js"></script>
     <script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./lib/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="./lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="./lib/moment/min/moment.min.js"></script>
+
 
     <script src="/js/modules/events.js"></script>
     <script src="/js/modules/signup.js"></script>
