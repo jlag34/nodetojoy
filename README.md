@@ -1,9 +1,9 @@
 ## NodetoJoy
 ### Project description
 
-roomTap is a simple web application allowing roommates to reserve a room within their house and notify all roommates of why, when and where in order to avoid scheduling conflicts.
+Dibs is a simple web application allowing roommates to reserve a room within their house and notify all roommates of why, when and where in order to avoid scheduling conflicts.
 
-Have you ever thought, wow, I would love to make dinner for my female friend? ...the day finally arrives and the kitchen is filthy and/or your roommates are busy playing drinking games! Boom... roomTap!  
+Have you ever thought, wow, I would love to make dinner for my female friend? ...the day finally arrives and the kitchen is filthy and/or your roommates are busy playing drinking games! Boom... Dibs!  
 
 #### Team:
 
@@ -24,18 +24,26 @@ Have you ever thought, wow, I would love to make dinner for my female friend? ..
 Some usage instructions
 
 #### Requirements:
- - Node
- - SQLite
- - AngularJS
- - Bootstrap
+ - node
+ - express
+ - mongoose
+ - mongodb
+ - angular
+ - angular-route
+ - angular-ui-router
+ - angular-animate
+ - angular-bootstrap
+ - bootstrap
 
 #### Development:
 
 #### Installing Dependencies:
 
   From within the root directory:
-    - TBD
-
+    - npm install
+    - bower install
+    - To run local database refer to (https://scotch.io/tutorials/an-introduction-to-mongodb)
+    
 View the project roadmap here
 
 ## Contributing

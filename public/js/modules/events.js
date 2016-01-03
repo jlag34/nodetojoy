@@ -1,39 +1,34 @@
-angular.module('eventsInfo', ['ngAnimate', 'ui.bootstrap'])
-  .controller('eventsController', function($scope, $state, $log, Eventstored) {
-    //4 do we want to save these into an object?
-    $scope.eve = {}
+angular.module('eventsInfo', [])
+  .controller('eventsController', function($scope, $state, Eventstored) {
+    $scope.eve = {};
     $scope.eve.eventDate = '';
-    $scope.eve.eventToBook = '';
+    $scope.eve.eventDescription = '';
     $scope.eve.eventAlert = '';
-    $scope.eve.eTime = '';
-    $scope.eve.roomName = 'kitchen'
-
-
-
-
-    //4 where is our eventSubmit function?
+    $scope.eve.eventTime = '';
+    $scope.eve.roomName = '';
+    $scope.eve.houseName = 'Hacker House';
 
     $scope.eventSubmit = function(){
-
-      console.log($scope.eve);
       Eventstored.eventData($scope.eve);
+      
+      Eventstored.getData()
+        .then(function(events){
+          events.data.forEach(function(event){
+          });
+        });
     };
 
     $scope.renderSideDashboard = function(){
       $state.go('dashboardPage.events');
+      Eventstored.getData().then(function(e){
+        $scope.ev = e.data;
+      })
     };
-
-
-
-
-
 
     //TIME ADDON
     $scope.eve.eventTime = new Date();
-
     $scope.hstep = 1;
     $scope.mstep = 15;
-
     $scope.options = {
       hstep: [1, 2, 3],
       mstep: [1, 5, 10, 15, 25, 30]
@@ -50,136 +45,69 @@ angular.module('eventsInfo', ['ngAnimate', 'ui.bootstrap'])
       d.setMinutes( 0 );
       $scope.eve.eventTime = d;
     };
-    ///////////END////////////////////
 
+    // used to help render the date
+    $scope.dt = + new Date();
 
+    $scope.today = function() {
+    $scope.eve.eventDate = new Date();
+    };
+    $scope.today();
 
-    ////////BUTTONS////////////
-  // $scope.singleModel = 1;
+    $scope.clear = function () {
+      $scope.eve.eventDate = null;
+    };
 
-  // $scope.radioModel = 'Middle';
+    $scope.toggleMin = function() {
+      $scope.minDate = $scope.minDate ? null : new Date();
+    };
+    $scope.toggleMin();
+    $scope.maxDate = new Date(2020, 5, 22);
 
-  // $scope.checkModel = {
-  //   left: false,
-  //   middle: false,
-  //   right: false
-  // };
+    $scope.open = function($event) {
+      $scope.status.opened = true;
+    };
 
-  
+    $scope.setDate = function(year, month, day) {
+      $scope.eve.eventDate = new Date(year, month, day);
+    };
 
+    $scope.dateOptions = {
+      formatYear: 'yy',
+      startingDay: 1
+    };
 
-  $scope.$watchCollection('checkModel', function () {
-    $scope.checkResults = [];
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
 
-    angular.forEach($scope.checkModel, function (value, key) {
-      if (value) {
-        $scope.checkResults.push(key);
-        console.log('inside res:', $scope.checkResults)
+    $scope.status = {
+      opened: false
+    };
 
-      }
-    });
-  });
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    var afterTomorrow = new Date();
+    afterTomorrow.setDate(tomorrow.getDate() + 2);
+    $scope.events =[{
+          date: tomorrow,
+          status: 'full'
+        },
+        {
+          date: afterTomorrow,
+          status: 'partially'
+        }
+      ];
 
-  $scope.eve.roomName = [];
-  $scope.$watchCollection('checkResults', function(){
-    console.log('this fired!');
-    $scope.eve.roomName = $scope.checkResults;
-  })
-
-  ////////////////////////////////
-
-
-
-  $scope.today = function() {
-  $scope.eve.eventDate = new Date();
-  };
-  $scope.today();
-
-  $scope.clear = function () {
-    $scope.eve.eventDate = null;
-  };
-
-  // Disable weekend selection
-  $scope.disabled = function(date, mode) {
-    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-  };
-
-  $scope.toggleMin = function() {
-    $scope.minDate = $scope.minDate ? null : new Date();
-  };
-  $scope.toggleMin();
-  $scope.maxDate = new Date(2020, 5, 22);
-
-  $scope.open = function($event) {
-    $scope.status.opened = true;
-  };
-
-  $scope.setDate = function(year, month, day) {
-    $scope.eve.eventDate = new Date(year, month, day);
-  };
-
-  $scope.dateOptions = {
-    formatYear: 'yy',
-    startingDay: 1
-  };
-
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-  $scope.format = $scope.formats[0];
-
-  $scope.status = {
-    opened: false
-  };
-
-  var tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  var afterTomorrow = new Date();
-  afterTomorrow.setDate(tomorrow.getDate() + 2);
-  $scope.events =
-    [
-      {
-        date: tomorrow,
-        status: 'full'
-      },
-      {
-        date: afterTomorrow,
-        status: 'partially'
-      }
-    ];
-
-  $scope.getDayClass = function(date, mode) {
-    if (mode === 'day') {
-      var dayToCheck = new Date(date).setHours(0,0,0,0);
-
-      for (var i=0;i<$scope.events.length;i++){
-        var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
-
-        if (dayToCheck === currentDay) {
-          return $scope.events[i].status;
+    $scope.getDayClass = function(date, mode) {
+      if (mode === 'day') {
+        var dayToCheck = new Date(date).setHours(0,0,0,0);
+        for (var i=0;i<$scope.events.length;i++){
+          var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
+          if (dayToCheck === currentDay) {
+            return $scope.events[i].status;
+          }
         }
       }
-    }
-
-    return '';
-  };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      return '';
+    };
   });

@@ -8,8 +8,15 @@ angular.module('eventsInfoFactory', [])
     });
   };
 
-  return {
-    eventData : eventData
+  var getData = function() {
+    return $http({
+      method: 'GET',
+      url: '/api/events/events'
+    });
   };
-  //5 what do we do with this page?
+
+  return {
+    eventData : eventData,
+    getData : getData
+  };
 });

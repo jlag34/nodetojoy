@@ -8,8 +8,16 @@
     <title>Dibs helping make roommates happy</title>
 </head>
 <body>
-      <div ui-view="indexPage">      
-      </div>
+    <nav class="navbar navbar-default">
+        <div class="navbar-brand">Dibs</div>
+        
+    </nav>
+    <div ui-view="indexPage"></div>
+    <div class="navbar navbar-fixed-bottom" role="footer" style="background-color: #f7f7f9">
+        <div class="container">
+            <p id="copyright">© 2016 Dibs</p>
+        </div>
+    </div>
 
     <script src="/lib/angular/angular.min.js"></script>
     
@@ -23,7 +31,7 @@
     <script src="/js/modules/signup.js"></script>
     <script src="/js/factories/eventFactory.js"></script>
     <script src="/js/factories/signupFactory.js"></script>
-    <script src="/lib/angular-ui-router.min.js"></script>
+    <script src="/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="/js/appRoutes.js"></script>
 </body>
 </html>

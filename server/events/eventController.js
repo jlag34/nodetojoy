@@ -1,9 +1,27 @@
-module.exports = {
-  
-  postEvent: function(req, res) {
+var Event = require('./eventModel.js');
 
-    console.log(req.body);
-    res.sendStatus(200);
+module.exports = {
+  postEvent: function(req,res){
+    new Event({
+      eventDate: req.body.eventDate,
+      eventTime: req.body.eventTime,
+      eventDescription: req.body.eventDescription,
+      roomName: req.body.roomName,
+      houseName: req.body.houseName,
+      eventAlert: req.body.eventAlert
+    })
+    .save(function(err, doc){
+      if(err){
+	      res.json(err);
+      } else {
+        res.send(doc.eventDescription);
+      }
+    });
+  },
+  getEvent: function(req,res){
+    Event.find(function(err, booked){
+      if(err) return console.error(err);
+      return res.json(booked);
+    });
   }
-  //7-8?
 };
