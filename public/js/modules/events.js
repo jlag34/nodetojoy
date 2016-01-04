@@ -1,6 +1,6 @@
 angular.module('eventsInfo', [])
   .constant('moment', moment)
-  .controller('eventsController', function($scope, $state, Eventstored, moment) {
+  .controller('eventsController', function($scope, $state, Eventstored, moment, $interval) {
     $scope.eve = {};
     $scope.eve.eventDate = '';
     $scope.eve.eventDescription = '';
@@ -9,25 +9,41 @@ angular.module('eventsInfo', [])
     $scope.eve.roomName = '';
     $scope.eve.houseName = 'Hacker House';
 
-    $scope.renderSideDashboard = function(){
+    $scope.refreshEvents = function() {
+      $interval(function(){
+        Eventstored.getData().then(function(events) {
+          var formattedEvents = Eventstored.formatData(events);
+          $scope.bookedEvents = formattedEvents;
+        });
+      }, 500);
+    };
+
+    $scope.renderSideDashboard = function() {
       $state.go('dashboardPage.events');
 
-      Eventstored.getData().then(function(events){
+      Eventstored.getData().then(function(events) {
         var formattedEvents = Eventstored.formatData(events);
         $scope.bookedEvents = formattedEvents;
       });
+
+      // removing past daily dibs every 30s
+      $scope.refreshEvents();
     };
 
-    $scope.eventSubmit = function(){
+    $scope.eventSubmit = function() {
       var $events = $scope.eve;
       Eventstored.eventData($events)
-      .then(function(message){
+      .then(function(message) {
         if(!message.data.result){
           alert('Someone else called Dibs!');
         }
       });
-      Eventstored.getData();
+      // Eventstored.getData();
       $scope.renderSideDashboard();
+    };
+
+    $scope.signout = function() {
+      $state.go('signupPage');
     };
 
     //TIME ADDON

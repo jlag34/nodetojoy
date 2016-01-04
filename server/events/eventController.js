@@ -3,12 +3,12 @@ var Promise = require('bluebird');
 Promise.promisifyAll(require('mongoose'));
 
 module.exports = {
-  postEvent: function(req,res){
+  postEvent: function(req,res) {
     //checks if event already exists
     eventModel.findOne({ 
       'eventDate': req.body.dibEvent.eventDate,
       'roomName': req.body.dibEvent.roomName
-    }).then(function(result){
+    }).then(function(result) {
       if(result){
         res.json({ result: false });
       } else {
@@ -19,10 +19,11 @@ module.exports = {
     });
   },
 
-  getEvent: function(req,res){
-    eventModel.find({})
+  getEvent: function(req,res) {
+    eventModel.find({'eventDate' : { $gte : new Date()} })
       .sort({eventDate: 1})
-      .then(function(booked){
+      .then(function(booked) {
+        console.log(booked);
         return res.json(booked);
       });
   }
